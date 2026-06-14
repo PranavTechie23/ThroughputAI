@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Progress } from './ui/progress';
 import { Clock, AlertTriangle, TrendingUp, Activity } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface PredictionData {
   delay: {
@@ -68,25 +69,25 @@ export function PredictionDashboard({ predictions }: PredictionDashboardProps) {
     switch (status) {
       case 'green':
         return {
-          card: 'bg-gradient-to-br from-emerald-50 via-white to-emerald-50/30 dark:from-emerald-950/30 dark:via-slate-800 dark:to-emerald-950/10 border-emerald-200 dark:border-emerald-800 shadow-lg',
+          card: 'bg-gradient-to-br from-emerald-50/80 via-white/80 to-emerald-50/30 dark:from-emerald-950/40 dark:via-slate-900/80 dark:to-emerald-950/20 border-emerald-200/50 dark:border-emerald-800/50 shadow-lg backdrop-blur-xl',
           icon: 'text-emerald-600 dark:text-emerald-400',
           progress: 'bg-emerald-500'
         };
       case 'warning':
         return {
-          card: 'bg-gradient-to-br from-amber-50 via-white to-amber-50/30 dark:from-amber-950/30 dark:via-slate-800 dark:to-amber-950/10 border-amber-200 dark:border-amber-800 shadow-lg',
+          card: 'bg-gradient-to-br from-amber-50/80 via-white/80 to-amber-50/30 dark:from-amber-950/40 dark:via-slate-900/80 dark:to-amber-950/20 border-amber-200/50 dark:border-amber-800/50 shadow-lg backdrop-blur-xl',
           icon: 'text-amber-600 dark:text-amber-400',
           progress: 'bg-amber-500'
         };
       case 'danger':
         return {
-          card: 'bg-gradient-to-br from-red-50 via-white to-red-50/30 dark:from-red-950/30 dark:via-slate-800 dark:to-red-950/10 border-red-200 dark:border-red-800 shadow-lg',
+          card: 'bg-gradient-to-br from-red-50/80 via-white/80 to-red-50/30 dark:from-red-950/40 dark:via-slate-900/80 dark:to-red-950/20 border-red-200/50 dark:border-red-800/50 shadow-lg backdrop-blur-xl',
           icon: 'text-red-600 dark:text-red-400',
           progress: 'bg-red-500'
         };
       default:
         return {
-          card: 'bg-white/60 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700',
+          card: 'bg-white/60 dark:bg-slate-800/60 border-slate-200/50 dark:border-slate-700/50 backdrop-blur-xl',
           icon: 'text-slate-500',
           progress: 'bg-slate-500'
         };
@@ -112,23 +113,37 @@ export function PredictionDashboard({ predictions }: PredictionDashboardProps) {
 
   const delayStyles = getDelayStyles(data.delay.status);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100 } }
+  };
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center space-x-3">
-        <div className="p-2 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl">
+      <motion.div 
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        className="flex items-center space-x-3"
+      >
+        <div className="p-2 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl shadow-lg">
           <Activity className="h-6 w-6 text-white" />
         </div>
         <div>
-          <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Live Predictions</h2>
+          <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Live Predictions</h2>
           <p className="text-sm text-slate-600 dark:text-slate-400">
             {hasData ? 'Real-time AI analysis and forecasting' : 'Submit input data to see predictions'}
           </p>
         </div>
-      </div>
+      </motion.div>
 
       {!hasData && (
-        <div className="text-center py-12">
-          <div className="text-slate-500 dark:text-slate-400 text-lg mb-2">
+        <div className="text-center py-12 bg-white/40 dark:bg-slate-800/40 backdrop-blur-xl rounded-2xl border border-white/50 dark:border-white/5 shadow-inner">
+          <div className="text-slate-500 dark:text-slate-400 text-lg mb-2 font-medium">
             No predictions available
           </div>
           <div className="text-slate-400 dark:text-slate-500 text-sm">
@@ -137,11 +152,17 @@ export function PredictionDashboard({ predictions }: PredictionDashboardProps) {
         </div>
       )}
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">{hasData && (
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+      >{hasData && (
         <>
         {/* Enhanced Delay Prediction */}
-        <Card className={`${delayStyles.card} overflow-hidden transition-all duration-500 hover:shadow-xl`}>
-          <CardHeader className="pb-4 bg-gradient-to-r from-transparent to-white/50 dark:to-slate-800/30">
+        <motion.div variants={itemVariants} whileHover={{ y: -5 }}>
+        <Card className={`${delayStyles.card} overflow-hidden transition-all duration-300 hover:shadow-2xl`}>
+          <CardHeader className="pb-4 border-b border-white/20 dark:border-white/5 bg-gradient-to-r from-transparent to-white/20 dark:to-slate-800/20">
             <CardTitle className="flex items-center space-x-3">
               <div className="p-2 bg-white/80 dark:bg-slate-700/80 rounded-lg">
                 <Clock className={`h-5 w-5 ${delayStyles.icon}`} />
@@ -187,10 +208,12 @@ export function PredictionDashboard({ predictions }: PredictionDashboardProps) {
             </div>
           </CardContent>
         </Card>
+        </motion.div>
 
         {/* Enhanced Conflict Detection */}
-        <Card className="bg-gradient-to-br from-orange-50 via-white to-amber-50/30 dark:from-orange-950/30 dark:via-slate-800 dark:to-amber-950/10 border-orange-200 dark:border-orange-800 shadow-lg overflow-hidden transition-all duration-500 hover:shadow-xl">
-          <CardHeader className="pb-4 bg-gradient-to-r from-transparent to-white/50 dark:to-slate-800/30">
+        <motion.div variants={itemVariants} whileHover={{ y: -5 }}>
+        <Card className="bg-gradient-to-br from-orange-50/80 via-white/80 to-amber-50/30 dark:from-orange-950/40 dark:via-slate-900/80 dark:to-amber-950/20 border-orange-200/50 dark:border-orange-800/50 shadow-lg backdrop-blur-xl overflow-hidden transition-all duration-300 hover:shadow-2xl">
+          <CardHeader className="pb-4 border-b border-white/20 dark:border-white/5 bg-gradient-to-r from-transparent to-white/20 dark:to-slate-800/20">
             <CardTitle className="flex items-center space-x-3">
               <div className="p-2 bg-white/80 dark:bg-slate-700/80 rounded-lg">
                 <AlertTriangle className="h-5 w-5 text-orange-600 dark:text-orange-400" />
@@ -228,10 +251,12 @@ export function PredictionDashboard({ predictions }: PredictionDashboardProps) {
             </div>
           </CardContent>
         </Card>
+        </motion.div>
 
         {/* Enhanced Throughput Target */}
-        <Card className="bg-gradient-to-br from-blue-50 via-white to-indigo-50/30 dark:from-blue-950/30 dark:via-slate-800 dark:to-indigo-950/10 border-blue-200 dark:border-blue-800 shadow-lg overflow-hidden transition-all duration-500 hover:shadow-xl">
-          <CardHeader className="pb-4 bg-gradient-to-r from-transparent to-white/50 dark:to-slate-800/30">
+        <motion.div variants={itemVariants} whileHover={{ y: -5 }}>
+        <Card className="bg-gradient-to-br from-blue-50/80 via-white/80 to-indigo-50/30 dark:from-blue-950/40 dark:via-slate-900/80 dark:to-indigo-950/20 border-blue-200/50 dark:border-blue-800/50 shadow-lg backdrop-blur-xl overflow-hidden transition-all duration-300 hover:shadow-2xl">
+          <CardHeader className="pb-4 border-b border-white/20 dark:border-white/5 bg-gradient-to-r from-transparent to-white/20 dark:to-slate-800/20">
             <CardTitle className="flex items-center space-x-3">
               <div className="p-2 bg-white/80 dark:bg-slate-700/80 rounded-lg">
                 <TrendingUp className="h-5 w-5 text-blue-600 dark:text-blue-400" />
@@ -286,9 +311,10 @@ export function PredictionDashboard({ predictions }: PredictionDashboardProps) {
             </div>
           </CardContent>
         </Card>
+        </motion.div>
         </>
       )}
-      </div>
+      </motion.div>
     </div>
   );
 }

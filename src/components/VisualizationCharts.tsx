@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { TrendingUp, BarChart3, PieChart as PieChartIcon, Activity } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface PredictionData {
   delay: {
@@ -66,23 +67,46 @@ export function VisualizationCharts({ predictions }: VisualizationChartsProps) {
     { hour: '14', throughput: predictions.throughput.current }
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100 } }
+  };
+
   return (
-    <div className="space-y-6">
-      <h2 className="text-lg font-semibold flex items-center space-x-2 text-slate-800 dark:text-slate-100">
-        <Activity className="h-5 w-5" />
-        <span>Analytics & Visualization</span>
-      </h2>
+    <motion.div 
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="space-y-6"
+    >
+      <motion.div variants={itemVariants} className="flex items-center space-x-3 mb-8">
+        <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg">
+          <Activity className="h-6 w-6 text-white" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Analytics & Visualization</h2>
+          <p className="text-sm text-slate-600 dark:text-slate-400">Deep dive into network performance metrics</p>
+        </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Delay Trend Chart */}
-        <Card className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 shadow-xl">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center space-x-2 text-slate-800 dark:text-slate-100">
-              <TrendingUp className="h-4 w-4" />
-              <span>Delay Trends (Last 7 Hours)</span>
+        <motion.div variants={itemVariants} whileHover={{ y: -5 }}>
+        <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/50 dark:border-slate-700/50 shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl h-full">
+          <CardHeader className="bg-gradient-to-r from-transparent to-white/20 dark:to-slate-800/20 border-b border-white/20 dark:border-white/5">
+            <CardTitle className="text-base flex items-center space-x-3 text-slate-800 dark:text-slate-100">
+              <div className="p-2 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg shadow-inner">
+                <TrendingUp className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+              </div>
+              <span className="font-semibold">Delay Trends (Last 7 Hours)</span>
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <ResponsiveContainer width="100%" height={250}>
               <LineChart data={delayTrendData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" strokeOpacity={0.5} />
@@ -115,16 +139,20 @@ export function VisualizationCharts({ predictions }: VisualizationChartsProps) {
             </ResponsiveContainer>
           </CardContent>
         </Card>
+        </motion.div>
 
         {/* Throughput Performance */}
-        <Card className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 shadow-xl">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center space-x-2 text-slate-800 dark:text-slate-100">
-              <BarChart3 className="h-4 w-4" />
-              <span>Hourly Throughput (%)</span>
+        <motion.div variants={itemVariants} whileHover={{ y: -5 }}>
+        <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/50 dark:border-slate-700/50 shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl h-full">
+          <CardHeader className="bg-gradient-to-r from-transparent to-white/20 dark:to-slate-800/20 border-b border-white/20 dark:border-white/5">
+            <CardTitle className="text-base flex items-center space-x-3 text-slate-800 dark:text-slate-100">
+              <div className="p-2 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg shadow-inner">
+                <BarChart3 className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
+              </div>
+              <span className="font-semibold">Hourly Throughput (%)</span>
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={throughputData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" strokeOpacity={0.5} />
@@ -140,16 +168,20 @@ export function VisualizationCharts({ predictions }: VisualizationChartsProps) {
             </ResponsiveContainer>
           </CardContent>
         </Card>
+        </motion.div>
 
         {/* Section-wise Conflicts */}
-        <Card className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 shadow-xl">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center space-x-2 text-slate-800 dark:text-slate-100">
-              <BarChart3 className="h-4 w-4" />
-              <span>Conflicts by Section</span>
+        <motion.div variants={itemVariants} whileHover={{ y: -5 }}>
+        <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/50 dark:border-slate-700/50 shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl h-full">
+          <CardHeader className="bg-gradient-to-r from-transparent to-white/20 dark:to-slate-800/20 border-b border-white/20 dark:border-white/5">
+            <CardTitle className="text-base flex items-center space-x-3 text-slate-800 dark:text-slate-100">
+              <div className="p-2 bg-orange-100 dark:bg-orange-900/50 rounded-lg shadow-inner">
+                <BarChart3 className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+              </div>
+              <span className="font-semibold">Conflicts by Section</span>
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={conflictBySection}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" strokeOpacity={0.5} />
@@ -162,16 +194,20 @@ export function VisualizationCharts({ predictions }: VisualizationChartsProps) {
             </ResponsiveContainer>
           </CardContent>
         </Card>
+        </motion.div>
 
         {/* Train Type Distribution */}
-        <Card className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 shadow-xl">
-          <CardHeader>
-            <CardTitle className="text-base flex items-center space-x-2 text-slate-800 dark:text-slate-100">
-              <PieChartIcon className="h-4 w-4" />
-              <span>Train Type Distribution</span>
+        <motion.div variants={itemVariants} whileHover={{ y: -5 }}>
+        <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/50 dark:border-slate-700/50 shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl h-full">
+          <CardHeader className="bg-gradient-to-r from-transparent to-white/20 dark:to-slate-800/20 border-b border-white/20 dark:border-white/5">
+            <CardTitle className="text-base flex items-center space-x-3 text-slate-800 dark:text-slate-100">
+              <div className="p-2 bg-emerald-100 dark:bg-emerald-900/50 rounded-lg shadow-inner">
+                <PieChartIcon className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+              </div>
+              <span className="font-semibold">Train Type Distribution</span>
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
@@ -192,38 +228,49 @@ export function VisualizationCharts({ predictions }: VisualizationChartsProps) {
             </ResponsiveContainer>
           </CardContent>
         </Card>
+        </motion.div>
       </div>
 
       {/* Real-time Heatmap Simulation */}
-      <Card className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 shadow-xl">
-        <CardHeader>
-          <CardTitle className="text-base text-slate-800 dark:text-slate-100">Network Status Heatmap</CardTitle>
+      <motion.div variants={itemVariants} whileHover={{ y: -5 }}>
+      <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/50 dark:border-slate-700/50 shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl">
+        <CardHeader className="bg-gradient-to-r from-transparent to-white/20 dark:to-slate-800/20 border-b border-white/20 dark:border-white/5">
+          <CardTitle className="text-base flex items-center space-x-3 text-slate-800 dark:text-slate-100">
+            <div className="p-2 bg-pink-100 dark:bg-pink-900/50 rounded-lg shadow-inner">
+              <Activity className="h-4 w-4 text-pink-600 dark:text-pink-400" />
+            </div>
+            <span className="font-semibold">Network Status Heatmap</span>
+          </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-7 gap-2 h-32">
+        <CardContent className="pt-6">
+          <div className="grid grid-cols-7 gap-3 h-32">
             {Array.from({ length: 49 }, (_, i) => {
               const intensity = Math.random();
               const getColor = () => {
-                if (intensity < 0.3) return 'bg-green-300 dark:bg-green-700';
-                if (intensity < 0.6) return 'bg-yellow-300 dark:bg-yellow-700';
-                return 'bg-red-300 dark:bg-red-700';
+                if (intensity < 0.3) return 'from-emerald-400/50 to-emerald-500/80 dark:from-emerald-500/40 dark:to-emerald-600/60 shadow-[0_0_10px_rgba(16,185,129,0.3)]';
+                if (intensity < 0.6) return 'from-amber-400/50 to-amber-500/80 dark:from-amber-500/40 dark:to-amber-600/60 shadow-[0_0_10px_rgba(245,158,11,0.3)]';
+                return 'from-red-400/50 to-red-500/80 dark:from-red-500/40 dark:to-red-600/60 shadow-[0_0_10px_rgba(239,68,68,0.3)]';
               };
               return (
-                <div
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.01 }}
                   key={i}
-                  className={`rounded transition-colors duration-300 ${getColor()}`}
+                  className={`rounded-md bg-gradient-to-br transition-all duration-500 hover:scale-110 ${getColor()}`}
                   title={`Section ${Math.floor(i / 7) + 1}-${(i % 7) + 1}: ${(intensity * 100).toFixed(0)}% load`}
                 />
               );
             })}
           </div>
-          <div className="flex items-center justify-between mt-4 text-xs text-slate-600 dark:text-slate-300">
-            <span>Low Load</span>
-            <span>Network Load Intensity</span>
-            <span>High Load</span>
+          <div className="flex items-center justify-between mt-6 text-xs font-medium text-slate-500 dark:text-slate-400 px-2">
+            <div className="flex items-center space-x-2"><div className="w-3 h-3 rounded-full bg-emerald-500"></div><span>Optimal</span></div>
+            <div className="flex items-center space-x-2"><div className="w-3 h-3 rounded-full bg-amber-500"></div><span>Moderate</span></div>
+            <div className="flex items-center space-x-2"><div className="w-3 h-3 rounded-full bg-red-500"></div><span>Congested</span></div>
           </div>
         </CardContent>
       </Card>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

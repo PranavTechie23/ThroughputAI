@@ -207,11 +207,13 @@ export function InputDataPanel({ onPredict }: InputDataPanelProps) {
   };
 
   return (
-    <Card className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 shadow-xl">
-      <CardHeader>
-        <CardTitle className="flex items-center space-x-2 text-black dark:text-white">
-          <Upload className="h-5 w-5" />
-          <span>Input Data Entry Panel</span>
+    <Card className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl border border-white/50 dark:border-slate-700/50 shadow-xl overflow-hidden transition-all duration-300">
+      <CardHeader className="bg-gradient-to-r from-transparent to-white/20 dark:to-slate-800/20 border-b border-white/20 dark:border-white/5">
+        <CardTitle className="flex items-center space-x-3 text-slate-800 dark:text-white">
+          <div className="p-2 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg shadow-inner">
+            <Upload className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
+          </div>
+          <span className="font-bold tracking-tight">Input Data Entry Panel</span>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -239,9 +241,9 @@ export function InputDataPanel({ onPredict }: InputDataPanelProps) {
 
             {/* Section ID */}
             <div className="space-y-2">
-              <Label htmlFor="sectionId" className="text-neutral-700 dark:text-neutral-200">Section ID</Label>
-              <div className="flex items-center space-x-2">
-                <span className="px-3 py-2 bg-slate-100 dark:bg-slate-800 border border-r-0 rounded-l-md text-sm font-mono text-black dark:text-white">
+              <Label htmlFor="sectionId" className="text-slate-700 dark:text-slate-200 font-medium">Section ID</Label>
+              <div className="flex items-center space-x-0 relative group">
+                <span className="px-4 py-2.5 bg-slate-100/80 dark:bg-slate-800/80 border border-r-0 border-slate-200/50 dark:border-slate-700/50 rounded-l-xl text-sm font-mono text-slate-800 dark:text-white backdrop-blur-sm z-10 transition-colors group-focus-within:border-indigo-500/50 group-focus-within:ring-1 group-focus-within:ring-indigo-500/50">
                   SC_
                 </span>
                 <Input
@@ -254,10 +256,10 @@ export function InputDataPanel({ onPredict }: InputDataPanelProps) {
                     const number = e.target.value;
                     setFormData({...formData, sectionId: number ? `sc_${number}` : ''});
                   }}
-                  className="rounded-l-none flex-1 bg-white dark:bg-neutral-800 text-black dark:text-white border-slate-200 dark:border-slate-700"
+                  className="rounded-l-none flex-1 bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-white border-slate-200/50 dark:border-slate-700/50 rounded-r-xl backdrop-blur-sm focus:z-20 transition-all shadow-inner focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:border-indigo-500/50 h-auto py-2.5"
                 />
               </div>
-              <div className="text-xs text-neutral-500 dark:text-neutral-400">
+              <div className="text-xs text-slate-500 dark:text-slate-400">
                 Example: SC_1, SC_2, SC_3...
               </div>
             </div>
@@ -287,31 +289,31 @@ export function InputDataPanel({ onPredict }: InputDataPanelProps) {
 
             {/* Scheduled Arrival */}
             <div className="space-y-2">
-              <Label htmlFor="scheduledArrival" className="text-neutral-700 dark:text-neutral-200">Scheduled Arrival</Label>
+              <Label htmlFor="scheduledArrival" className="text-slate-700 dark:text-slate-200 font-medium">Scheduled Arrival</Label>
               <Input
                 id="scheduledArrival"
                 type="time"
                 value={formData.scheduledArrival}
                 onChange={(e) => setFormData({...formData, scheduledArrival: e.target.value})}
-                className="w-full bg-white dark:bg-neutral-800 text-black dark:text-white border-slate-200 dark:border-slate-700"
+                className="w-full bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-white border-slate-200/50 dark:border-slate-700/50 rounded-xl backdrop-blur-sm focus:ring-2 focus:ring-indigo-500/50 transition-all shadow-inner"
               />
             </div>
 
             {/* Scheduled Departure */}
             <div className="space-y-2">
-              <Label htmlFor="scheduledDeparture" className="text-neutral-700 dark:text-neutral-200">Scheduled Departure</Label>
+              <Label htmlFor="scheduledDeparture" className="text-slate-700 dark:text-slate-200 font-medium">Scheduled Departure</Label>
               <Input
                 id="scheduledDeparture"
                 type="time"
                 value={formData.scheduledDeparture}
                 onChange={(e) => setFormData({...formData, scheduledDeparture: e.target.value})}
-                className="w-full bg-white dark:bg-neutral-800 text-black dark:text-white border-slate-200 dark:border-slate-700"
+                className="w-full bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-white border-slate-200/50 dark:border-slate-700/50 rounded-xl backdrop-blur-sm focus:ring-2 focus:ring-indigo-500/50 transition-all shadow-inner"
               />
             </div>
 
             {/* Track Capacity */}
             <div className="space-y-2">
-              <Label htmlFor="trackCapacity" className="text-neutral-700 dark:text-neutral-200">Track Capacity</Label>
+              <Label htmlFor="trackCapacity" className="text-slate-700 dark:text-slate-200 font-medium">Track Capacity</Label>
               <Input
                 id="trackCapacity"
                 type="number"
@@ -322,7 +324,7 @@ export function InputDataPanel({ onPredict }: InputDataPanelProps) {
                   const value = e.target.value === '' ? 1 : parseInt(e.target.value);
                   setFormData({...formData, trackCapacity: isNaN(value) ? 1 : Math.max(1, Math.min(10, value))});
                 }}
-                className="w-full bg-white dark:bg-neutral-800 text-black dark:text-white border-slate-200 dark:border-slate-700"
+                className="w-full bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-white border-slate-200/50 dark:border-slate-700/50 rounded-xl backdrop-blur-sm focus:ring-2 focus:ring-indigo-500/50 transition-all shadow-inner"
               />
             </div>
           </div>
@@ -371,7 +373,7 @@ export function InputDataPanel({ onPredict }: InputDataPanelProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Hour Input */}
             <div className="space-y-2">
-              <Label htmlFor="hour" className="text-neutral-700 dark:text-neutral-200">Hour of Day (0-23)</Label>
+              <Label htmlFor="hour" className="text-slate-700 dark:text-slate-200 font-medium">Hour of Day (0-23)</Label>
               <Input
                 id="hour"
                 type="number"
@@ -382,7 +384,7 @@ export function InputDataPanel({ onPredict }: InputDataPanelProps) {
                   const value = e.target.value === '' ? 0 : parseInt(e.target.value);
                   setFormData({...formData, hour: isNaN(value) ? 0 : Math.max(0, Math.min(23, value))});
                 }}
-                className="w-full bg-white dark:bg-neutral-800 text-black dark:text-white border-slate-200 dark:border-slate-700"
+                className="w-full bg-white/50 dark:bg-slate-800/50 text-slate-900 dark:text-white border-slate-200/50 dark:border-slate-700/50 rounded-xl backdrop-blur-sm focus:ring-2 focus:ring-indigo-500/50 transition-all shadow-inner"
               />
             </div>
           </div>
@@ -390,22 +392,22 @@ export function InputDataPanel({ onPredict }: InputDataPanelProps) {
           <Separator />
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
             <Button
               type="button"
               variant="outline"
               onClick={resetForm}
-              className="flex items-center space-x-2 dark:text-white"
+              className="w-full sm:w-auto flex items-center space-x-2 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all rounded-xl shadow-sm"
             >
-              <RotateCcw className="h-4 w-4" />
-              <span>Reset Form</span>
+              <RotateCcw className="h-4 w-4 text-slate-600 dark:text-slate-300" />
+              <span className="text-slate-700 dark:text-slate-200">Reset Form</span>
             </Button>
 
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
               <Button
                 type="button"
                 variant="outline"
-                className="flex items-center space-x-2 dark:text-white"
+                className="w-full sm:w-auto flex items-center space-x-2 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all rounded-xl shadow-sm text-slate-700 dark:text-slate-200"
                 onClick={handleUploadClick}
                 disabled={isUploading}
               >
@@ -416,10 +418,10 @@ export function InputDataPanel({ onPredict }: InputDataPanelProps) {
               <Button
                 type="submit"
                 disabled={isLoading || !formData.trainType || !formData.sectionId}
-                className="flex items-center space-x-2 dark:text-white"
+                className="w-full sm:w-auto flex items-center space-x-2 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white shadow-[0_0_20px_rgba(79,70,229,0.3)] hover:shadow-[0_0_25px_rgba(79,70,229,0.5)] border-0 px-8 transition-all duration-300 rounded-xl"
               >
                 <Play className="h-4 w-4" />
-                <span>{isLoading ? 'Predicting...' : 'Run Prediction'}</span>
+                <span className="font-semibold">{isLoading ? 'Predicting...' : 'Run Prediction'}</span>
               </Button>
             </div>
           </div>
